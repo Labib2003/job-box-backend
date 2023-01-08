@@ -63,7 +63,10 @@ const jobSchema = mongoose.Schema(
             type: ObjectId,
             ref: "Candidate",
           },
-          email: String,
+          email: {
+            type: String,
+            validate: [validator.isEmail, "Invalid email"],
+          },
         },
       ],
     },
@@ -71,7 +74,7 @@ const jobSchema = mongoose.Schema(
       {
         email: {
           type: String,
-          validate: validator.isEmail,
+          validate: [validator.isEmail, "Invalid email"],
         },
         question: {
           type: String,
