@@ -60,7 +60,7 @@ const jobSchema = mongoose.Schema(
       type: [
         {
           id: {
-            type: ObjectId,
+            type: Object,
             ref: "Candidate",
           },
           email: {
