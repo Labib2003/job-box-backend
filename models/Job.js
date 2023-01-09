@@ -10,6 +10,15 @@ const jobSchema = mongoose.Schema(
       required: true,
       trim: true,
     },
+    isOpen: {
+      type: Boolean,
+      default: true,
+    },
+    postedBy: {
+      type: String,
+      required: true,
+      validate: [validator.isEmail, "Invalid email"],
+    },
     companyName: {
       type: String,
       required: true,
@@ -60,13 +69,14 @@ const jobSchema = mongoose.Schema(
       type: [
         {
           id: {
-            type: Object,
+            type: ObjectId,
             ref: "Candidate",
           },
           email: {
             type: String,
             validate: [validator.isEmail, "Invalid email"],
           },
+          _id: false,
         },
       ],
     },
@@ -86,6 +96,7 @@ const jobSchema = mongoose.Schema(
   },
   {
     collection: "job",
+    timestamps: true,
   }
 );
 
