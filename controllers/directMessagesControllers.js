@@ -1,4 +1,8 @@
-const { sendNewMessageAsEmployerService, sendMessageAsCandidateService } = require("../services/directMessagesServices");
+const {
+  sendNewMessageAsEmployerService,
+  sendMessageAsCandidateService,
+} = require("../services/directMessagesServices");
+
 
 module.exports.sendNewMessageAsEmployer = async (req, res) => {
   try {
@@ -18,6 +22,12 @@ module.exports.sendNewMessageAsEmployer = async (req, res) => {
 module.exports.sendMessageAsCandidate = async (req, res) => {
   try {
     const response = await sendMessageAsCandidateService(req.body);
+    if (!response.modifiedCount) {
+      return res.status(500).json({
+        success: false,
+        message: "Chat not found",
+      });
+    }
 
     res.status(200).json({
       success: true,

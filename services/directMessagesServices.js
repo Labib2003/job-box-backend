@@ -1,16 +1,20 @@
 const DirectMessage = require("../models/DirectMessage");
 
+module.exports.getMessagesForEmployerService = (employerEmail) =>
+  DirectMessage.find({ employer: employerEmail });
 module.exports.sendNewMessageAsEmployerService = async (message) => {
-  const checkTo = await DirectMessage.findOne({ to: message.to });
-  const checkFrom = await DirectMessage.findOne({ from: message.from });
+  const checkCandidate = await DirectMessage.findOne({
+    candidate: message.candidate,
+  });
+  const checkEmployer = await DirectMessage.findOne({
+    employer: message.employer,
+  });
 
-
-
-  if (checkFrom) {
-    if (checkTo) {
+  if (checkEmployer) {
+    if (checkCandidate) {
       console.log("pushing into existing");
       return DirectMessage.updateOne(
-        { to: message.to, from: message.from },
+        { candidate: message.candidate, employer: message.employer },
         {
           $push: {
             conversation: { ...message.message, role: "employer" },
@@ -20,24 +24,26 @@ module.exports.sendNewMessageAsEmployerService = async (message) => {
     } else {
       console.log("creating new");
       return new DirectMessage({
-        from: message.from,
-        to: message.to,
+        employer: message.employer,
+        candidate: message.candidate,
         conversation: [{ ...message.message, role: "employer" }],
       }).save();
     }
   } else {
     console.log("creating new");
     return new DirectMessage({
-      from: message.from,
-      to: message.to,
+      employer: message.employer,
+      candidate: message.candidate,
       conversation: [{ ...message.message, role: "employer" }],
     }).save();
   }
 };
 
+module.exports.getMessagesForEmployerService = (candidateEmail) =>
+  DirectMessage.find({ employer: candidateEmail });
 module.exports.sendMessageAsCandidateService = (message) =>
   DirectMessage.updateOne(
-    { to: message.to, from: message.from },
+    { candidate: message.candidate, employer: message.employer },
     {
       $push: {
         conversation: { ...message.message, role: "candidate" },

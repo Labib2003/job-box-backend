@@ -1,14 +1,15 @@
 const mongoose = require("mongoose");
 const validator = require("validator");
 
+// only employer can start a new DM
 const directMessageSchema = mongoose.Schema(
   {
-    from: {
+    employer: {
       type: String,
       required: true,
       validate: [validator.isEmail, "Invalid email"],
     },
-    to: {
+    candidate: {
       type: String,
       required: true,
       validate: [validator.isEmail, "Invalid email"],
