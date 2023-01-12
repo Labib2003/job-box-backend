@@ -32,7 +32,6 @@ const jobSchema = mongoose.Schema(
     workLevel: {
       type: [String],
       required: true,
-      enum: ["Easy", "Medium", "Hard"],
     },
     employmentType: {
       type: String,
@@ -68,34 +67,36 @@ const jobSchema = mongoose.Schema(
     applicants: {
       type: [
         {
-          id: {
-            type: ObjectId,
-            ref: "Candidate",
-          },
           email: {
             type: String,
             validate: [validator.isEmail, "Invalid email"],
           },
-          _id: false,
+          approved: {
+            type: Boolean,
+            default: false,
+          },
+        },
+      ],
+      unique: false,
+    },
+    queries: {
+      type: [
+        {
+          email: {
+            type: String,
+            validate: [validator.isEmail, "Invalid email"],
+          },
+          question: {
+            type: String,
+            trim: true,
+          },
+          reply: [String],
         },
       ],
     },
-    queries: [
-      {
-        email: {
-          type: String,
-          validate: [validator.isEmail, "Invalid email"],
-        },
-        question: {
-          type: String,
-          trim: true,
-        },
-        reply: [String],
-      },
-    ],
   },
   {
-    collection: "job",
+    collection: "jobs",
     timestamps: true,
   }
 );
