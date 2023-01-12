@@ -7,6 +7,8 @@ const {
   getJobByRecruiterEmailService,
   getJobsAppliedByCandidateService,
   closeJobPostService,
+  approveJobApplicationService,
+  addQueryService,
 } = require("../services/jobServices");
 
 module.exports.getAllJobs = async (req, res) => {
@@ -128,6 +130,41 @@ module.exports.closeJobPost = async (req, res) => {
   try {
     const response = await closeJobPostService(req.params.id);
     console.log(response);
+    res.status(200).json({
+      success: true,
+      data: response,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+module.exports.approveCandidate = async (req, res) => {
+  try {
+    console.log(req.params.id, req.body);
+    const response = await approveJobApplicationService(
+      req.params.id,
+      req.body
+    );
+    res.status(200).json({
+      success: true,
+      data: response,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+module.exports.addQuery = async (req, res) => {
+  try {
+    console.log(req.params.id, req.body);
+    const response = await addQueryService(req.params.id, req.body);
+    console.log(response);
+
     res.status(200).json({
       success: true,
       data: response,

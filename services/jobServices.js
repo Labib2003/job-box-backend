@@ -6,7 +6,7 @@ module.exports.getAllOpenJobsService = () => Job.find({ isOpen: true });
 module.exports.getJobByRecruiterEmailService = (email) =>
   Job.find({ postedBy: email });
 module.exports.getJobsAppliedByCandidateService = async (email) => {
-  const jobs = await Job.find({ isOpen: true });
+  const jobs = await Job.find({});
 
   const appliedJobs = [];
   jobs.forEach((job) => {
@@ -36,3 +36,20 @@ module.exports.applyToJobService = async (id, data) => {
 module.exports.getJobByIdService = (id) => Job.findById(id);
 module.exports.closeJobPostService = (id) =>
   Job.findByIdAndUpdate(id, { isOpen: false });
+module.exports.approveJobApplicationService = async (jobId, candidateData) => {
+  const job = await Job.findById(jobId);
+
+  job.applicants.map((applicant) => {
+    if (applicant.email === candidateData.email) {
+      applicant.approved = true;
+    }
+  });
+
+  const res = await Job.findByIdAndUpdate(jobId, {
+    $set: job,
+  });
+  return res;
+};
+
+module.exports.addQueryService = (jobId, data) =>
+  Job.findByIdAndUpdate(jobId, { $push: { queries: data } });
