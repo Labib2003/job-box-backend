@@ -17,7 +17,7 @@ module.exports.sendNewMessageAsEmployerService = async (message) => {
         { candidate: message.candidate, employer: message.employer },
         {
           $push: {
-            conversation: { ...message.message, role: "employer" },
+            conversation: { message: message.message, role: "employer" },
           },
         }
       );
@@ -26,7 +26,7 @@ module.exports.sendNewMessageAsEmployerService = async (message) => {
       return new DirectMessage({
         employer: message.employer,
         candidate: message.candidate,
-        conversation: [{ ...message.message, role: "employer" }],
+        conversation: [{ message: message.message, role: "employer" }],
       }).save();
     }
   } else {
@@ -34,19 +34,19 @@ module.exports.sendNewMessageAsEmployerService = async (message) => {
     return new DirectMessage({
       employer: message.employer,
       candidate: message.candidate,
-      conversation: [{ ...message.message, role: "employer" }],
+      conversation: [{ message: message.message, role: "employer" }],
     }).save();
   }
 };
 
-module.exports.getMessagesForEmployerService = (candidateEmail) =>
-  DirectMessage.find({ employer: candidateEmail });
+module.exports.getMessagesForCandidateService = (candidateEmail) =>
+  DirectMessage.find({ candidate: candidateEmail });
 module.exports.sendMessageAsCandidateService = (message) =>
   DirectMessage.updateOne(
     { candidate: message.candidate, employer: message.employer },
     {
       $push: {
-        conversation: { ...message.message, role: "candidate" },
+        conversation: { message: message.message, role: "candidate" },
       },
     }
   );

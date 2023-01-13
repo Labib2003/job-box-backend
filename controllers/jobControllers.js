@@ -9,6 +9,7 @@ const {
   closeJobPostService,
   approveJobApplicationService,
   addQueryService,
+  replyToQueryService,
 } = require("../services/jobServices");
 
 module.exports.getAllJobs = async (req, res) => {
@@ -163,6 +164,23 @@ module.exports.addQuery = async (req, res) => {
   try {
     console.log(req.params.id, req.body);
     const response = await addQueryService(req.params.id, req.body);
+    console.log(response);
+
+    res.status(200).json({
+      success: true,
+      data: response,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+module.exports.replyToQuery = async (req, res) => {
+  try {
+    console.log(req.params.id, req.body);
+    const response = await replyToQueryService(req.params.id, req.body);
     console.log(response);
 
     res.status(200).json({

@@ -10,6 +10,7 @@ const {
   closeJobPost,
   approveCandidate,
   addQuery,
+  replyToQuery,
 } = require("../controllers/jobControllers");
 
 const jobRouter = express.Router();
@@ -23,5 +24,6 @@ jobRouter.route("/get/:id").get(getJobById);
 jobRouter.route("/close/:id").patch(closeJobPost);
 jobRouter.route("/approve/:id").put(approveCandidate);
 jobRouter.route("/query/:id").put(addQuery);
+jobRouter.route("/query/reply/:id").put(replyToQuery);
 
 module.exports = jobRouter;

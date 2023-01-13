@@ -53,3 +53,20 @@ module.exports.approveJobApplicationService = async (jobId, candidateData) => {
 
 module.exports.addQueryService = (jobId, data) =>
   Job.findByIdAndUpdate(jobId, { $push: { queries: data } });
+
+module.exports.replyToQueryService = async (jobId, data) => {
+  const { queryId, answer } = data;
+  const job = await Job.findById(jobId);
+  console.log(job.queries);
+
+  job.queries.map((query) => {
+    if (query._id.toString() === queryId) {
+      query.reply = [...query.reply, answer];
+    }
+  });
+
+  const res = await Job.findByIdAndUpdate(jobId, {
+    $set: job,
+  });
+  return res;
+};
