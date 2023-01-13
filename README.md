@@ -2,9 +2,7 @@
 
 This project is the server side code of an **assignment** of the `Programming Hero Redux Advanced Crash Course`. I implemented the backend and the state management part in the frontend with Redux.
 
-Frontend Code
-
-Live Demo
+Link to the [Front-end code](https://github.com/Labib2003/job-box-frontend) and the [Live demo](https://jobbox-4b283.web.app/).
 
 # Assignment Name:
 
@@ -35,13 +33,16 @@ In this task, you will add an extra section to the Jobbox application shown in m
 - Candidates can reply to the direct message, like a **real-time** chat application.
 
 # Note:
+
 - You need to implement user authentication.
 - User interactions should be in real time. If there is a need for manual reload after adding or removing data, 5 marks will be deducted.
 - All data must be loaded from the server. You can use the Jobbox server (Modify it if you need.) You have to host the server and connect the live link to your application
 - You need to keep Redux Dev Tool active. DO NOT DISABLE REACT DEV TOOL (This is important for cross-checking your assignment.)
 
-# Deadline: 
+# Deadline:
+
 Saturday 13 December thill 11:59 pm
 
 # What you need to Submit ?
+
 Live link of frontend code and Github repo link.
